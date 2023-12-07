@@ -1,0 +1,14 @@
+pandas
+scikit-learn
+tqdm
+rdkit==2022.03.3
+openpyxl
+xlrd
+tensorboardx
+pyyaml
+tensorboard
+matplotlib
+seaborn
+grad-cam
+absl-py==1.0.0
+docker==5.0.0

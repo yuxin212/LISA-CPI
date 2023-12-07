@@ -1,0 +1,54 @@
+transforms:
+  img_size: 224
+  hflip: 0.5
+  vflip: 0.0
+  gscale: 0.2
+  rot_deg: 360
+label:
+  min: 5.0
+  max: 12.22914799
+train:
+  batch_size: 256
+  anno: data/ligands/top20/anno/GPCR_train.json
+  smooth: 4
+test:
+  batch_size: 256
+  anno: data/ligands/top20/anno/GPCR_test.json
+  smooth: 4
+model:
+  base_model:
+    name: BaseModel
+    model: ResNet18
+    target_classes: 1
+    final_activation: LeakyReLU
+    rep:
+      in_feats:
+      - 384
+losses:
+  base_model: MSELoss
+optimizers:
+  BaseModel:
+    method: AdamW
+    lr: 0.005
+    wd: 5.0e-05
+scheduler:
+  lr_gamma: 0.1
+  lr_milestones:
+  - 10
+  - 20
+  - 30
+  lr_warmup_epochs: 10
+n_gpus: 2
+gpu_ids: 
+  - 0
+  - 1
+workers: 12
+resume: trained_models/train/original_models/imagemol.pth
+epochs: 80
+tensorboard: true
+print_freq: 20
+test_only: false
+output_dir: trained_models/train/GPCR_top20_10fold
+rng_seed: 0
+task_type: regression
+kfold_splits: 10

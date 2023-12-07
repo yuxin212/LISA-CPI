@@ -1,0 +1,56 @@
+transforms:
+  img_size: 224
+  hflip: 0.5
+  vflip: 0.0
+  gscale: 0.2
+  rot_deg: 360
+label:
+  min: 5.0
+  max: 12.22914799
+train:
+  batch_size: 256
+  anno: data/ligands/pain/anno/GPCR_train.json
+  smooth: 4
+test:
+  batch_size: 256
+  anno: data/ligands/pain/anno/GPCR_test.json
+  smooth: 4
+model:
+  base_model:
+    name: BaseModel
+    model: ResNet18
+    target_classes: 1
+    final_activation: LeakyReLU
+    rep:
+      in_feats:
+      - 384
+losses:
+  base_model: MSELoss
+optimizers:
+  BaseModel:
+    method: SGD
+    lr: 0.001
+    momentum: 0.9
+    wd: 1.0e-05
+scheduler:
+  lr_gamma: 0.1
+  lr_milestones:
+  - 20
+  - 25
+  - 30
+  lr_warmup_epochs: 10
+n_gpus: 1
+gpu_ids: 
+  - 0
+workers: 12
+resume: trained_models/train/original_models/pain.pth
+tensorboard: true
+print_freq: 20
+test_only: true
+output_dir: trained_models/evaluate/GPCR_pain_10fold
+rng_seed: 0
+task_type: regression
+eval_and_vis:
+  tsne: true
+  per_sample_result: true
+  
